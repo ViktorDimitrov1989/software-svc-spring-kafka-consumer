@@ -1,0 +1,71 @@
+version: '2'
+
+networks:
+  kafka-net:
+    driver: bridge
+
+services:
+  zookeeper-server:
+    image: 'bitnami/zookeeper:latest'
+    networks:
+      - kafka-net
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka-server1:
+    image: 'bitnami/kafka:latest'
+    networks:
+      - kafka-net    
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper-server:2181
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper-server
+	  
+Start kafka broker  
+	docker-compose up -d
+Attach to docker image
+	winpty docker exec -it [image_id] bash
+
+Go into kafka sh scripts dir
+	cd /opt/bitnami/kafka/bin
+	
+Inspect container IP
+	docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' [container_id]
+
+Create topic
+	./kafka-topics.sh --create --zookeeper [zk_address]:2181 --topic test --partitions 3 --replication-factor 1
+	
+Create producer and produce events
+	./kafka-console-producer.sh --broker-list [kafka_address]:9092 --topic test
+
+Create consumer 
+	./kafka-console-consumer.sh --bootstrap-server [kafka_address]:9092 --topic test --from-beginning
+
+Perf test - consumer
+	./bin/kafka-consumer-perf-test.sh --topic test --broker-list [kafka_address]:9092 --messages 5 --timeout 10000
+
+Perf test - producer
+	./bin/kafka-producer-perf-test.sh --topic test --throughput -1 --num-records 3000000 --record-size 1024 --producer-props acks=all bootstrap.servers=[kafka_address]:9092
+	
+Perf test - producer - file
+	./kafka-producer-perf-test.sh --topic test --throughput -1 --num-records 10 --payload-file payload.txt --producer-props acks=all bootstrap.servers=172.19.0.2:9092
+	
+End to end testing
+	./bin/kafka-run-class.sh kafka.tools.EndToEndLatency [kafka_address]:9092 test 10 1 1024
+	
+Copy file to running docker container
+	docker cp perf-script.sh b45aa32b2388:/opt/bitnami/kafka/bin
+	
+	
+<doc> https://medium.com/metrosystemsro/apache-kafka-how-to-test-performance-for-clients-configured-with-ssl-encryption-3356d3a0d52b
+	
+	
+	
+	kafka_address = 172.19.0.2
+	
+	
