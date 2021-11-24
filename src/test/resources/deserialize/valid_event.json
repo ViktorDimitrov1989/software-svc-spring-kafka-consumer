@@ -1,0 +1,10 @@
+{
+  "header": {
+    "token": "ew0KInVzZXIiOiJUZXN0VXNlcjEyMyIsDQoicGFzc3dvcmQiOiJ0ZXN0dGVzdCIsDQoicGVybWlzc2lvbnMiOiJBTEwiDQp9",
+    "testHeader": "Test123"
+  },
+  "payload": {
+    "a": "b",
+    "c": "d"
+  }
+}

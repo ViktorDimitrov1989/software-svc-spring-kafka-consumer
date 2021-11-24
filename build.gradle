@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'groovy'
 }
 
 group = 'com.vd'
@@ -21,11 +22,20 @@ repositories {
 dependencies {
 //	implementation 'com.fasterxml.jackson.core:jackson-databind:2.7.4'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.springframework.kafka:spring-kafka:2.7.2'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.6'
 	compileOnly 'org.projectlombok:lombok'
+	testImplementation 'org.codehaus.groovy:groovy-all:3.0.9'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
+	testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.kafka:spring-kafka-test:2.7.2'
+	// https://mvnrepository.com/artifact/io.github.hakky54/logcaptor
+	testImplementation 'io.github.hakky54:logcaptor:2.7.0'
+
 }
 
 test {

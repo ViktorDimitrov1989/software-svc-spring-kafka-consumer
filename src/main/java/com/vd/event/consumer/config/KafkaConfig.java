@@ -10,19 +10,23 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 
-@EnableKafka
 @Configuration
+@EnableKafka
 public class KafkaConfig {
 
     @Bean
     @Primary
     public ConcurrentKafkaListenerContainerFactory<Object, Object> customKafkaListenerContainerFactory(
-            ConcurrentKafkaListenerContainerFactoryConfigurer listenerConfigurer,
+            ConcurrentKafkaListenerContainerFactoryConfigurer configurer,
             ConsumerFactory<Object, Object> kafkaConsumerFactory,
             ErrorHandlerListener errorHandlerListener
     ) {
 
-        return null;
+        ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        configurer.configure(factory, kafkaConsumerFactory);
+        factory.setErrorHandler(errorHandlerListener);
+
+        return factory;
     }
 
 
