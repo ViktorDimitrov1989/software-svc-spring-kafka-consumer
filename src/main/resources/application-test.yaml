@@ -1,45 +1,7 @@
-server:
-  port: 8080
-
 spring:
   kafka:
-    bootstrap-servers: ${spring.embedded.kafka.brokers}
-#    client-id: software-svc-spring-kafka-consumer
     consumer:
-      group-id: software-svc-spring-kafka-consumer
       auto-offset-reset: earliest
-      enable-auto-commit: false
-      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-      max-poll-records: 10
-      fetch-max-wait: 2000
-      #      partition-healthcheck-enabled: true
-      #      partition-healthcheck-timeout-ms: 5
-      #      partition-healthcheck-fixedrate-ms: 5
-      #      partition-healthcheck-initDelay-ms: 5
-      properties:
-        max.poll.interval.ms: 997500
-        spring.deserializer.value.delegate.class: com.vd.event.consumer.infrastructure.kafka.EventDeserializer
-    lsitener:
-      ack-mode: manual_immediate
-      poll-timeout: 5000
-      missing-topics-fatal: false
-    properties:
-      security.protocol: PLAINTEXT
-      ssl.endpoint.identification.algorithm: https
-
-logging:
-  level:
-    root: WARN
-    org.springframework.web: INFO
-    com.vd.event.consumer: INFO
-
-vd:
-  kafka:
-    saas:
-      listener:
-        sleep-period: ${KAFKA_SLEEP_LISTENER_PERIOD:10000}
-        restart-period: ${KAFKA_RESTART_LISTENER_PERIOD:120000}
-      topic: default_topic
-      parameters:
-        envId: ${ENVIRONMENT_ID:test123}
-        clientId: ${CLIENT_ID:test_client}
+      group-id: baeldung
+test:
+  topic: embedded-test-topic

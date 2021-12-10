@@ -1,48 +1,48 @@
-server:
-  port: 8080
-
-spring:
-  kafka:
-    bootstrap-servers: ${KAFKA_SERVER_ADDRESS:localhost:9092}
-    client-id: software-svc-spring-kafka-consumer
-    consumer:
-      group-id: software-svc-spring-kafka-consumer
-      enable-auto-commit: false
-      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-      max-poll-records: 10
-      fetch-max-wait: 2000
-#      partition-healthcheck-enabled: true
-#      partition-healthcheck-timeout-ms: 55000
-#      partition-healthcheck-fixedrate-ms: 60000
-#      partition-healthcheck-initDelay-ms: 30000
-      properties:
-        max.poll.interval.ms: 997500
-        spring.deserializer.value.delegate.class: com.vd.event.consumer.infrastructure.kafka.EventDeserializer
-    lsitener:
-      ack-mode: manual_immediate
-      poll-timeout: 5000
-      missing-topics-fatal: false
-#    properties:
-#      security.protocol: SSL
-#      ssl.endpoint.identification.algorithm:
-
-app:
-  topic:
-    example: example.t
-
-logging:
-  level:
-    root: WARN
-    org.springframework.web: INFO
-    com.vd.event.consumer: INFO
-
-vd:
-  kafka:
-    saas:
-      listener:
-        sleep-period: ${KAFKA_SLEEP_LISTENER_PERIOD:10000}
-        restart-period: ${KAFKA_RESTART_LISTENER_PERIOD:120000}
-      topic: ${EVENT_CONSUMER_TOPIC_NAME:default_topic}
-      parameters:
-        envId: ${ENVIRONMENT_ID:test123}
-        clientId: ${CLIENT_ID:test_client}
+#server:
+#  port: 8080
+#
+#spring:
+#  kafka:
+#    bootstrap-servers: ${KAFKA_SERVER_ADDRESS:localhost:9092}
+#    client-id: software-svc-spring-kafka-consumer
+#    consumer:
+#      group-id: software-svc-spring-kafka-consumer
+#      enable-auto-commit: false
+#      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#      max-poll-records: 10
+#      fetch-max-wait: 2000
+##      partition-healthcheck-enabled: true
+##      partition-healthcheck-timeout-ms: 55000
+##      partition-healthcheck-fixedrate-ms: 60000
+##      partition-healthcheck-initDelay-ms: 30000
+#      properties:
+#        max.poll.interval.ms: 997500
+#        spring.deserializer.value.delegate.class: com.vd.event.consumer.infrastructure.kafka.EventDeserializer
+#    lsitener:
+#      ack-mode: manual_immediate
+#      poll-timeout: 5000
+#      missing-topics-fatal: false
+##    properties:
+##      security.protocol: SSL
+##      ssl.endpoint.identification.algorithm:
+#
+#app:
+#  topic:
+#    example: example.t
+#
+#logging:
+#  level:
+#    root: WARN
+#    org.springframework.web: INFO
+#    com.vd.event.consumer: INFO
+#
+#vd:
+#  kafka:
+#    saas:
+#      listener:
+#        sleep-period: ${KAFKA_SLEEP_LISTENER_PERIOD:10000}
+#        restart-period: ${KAFKA_RESTART_LISTENER_PERIOD:120000}
+#      topic: ${EVENT_CONSUMER_TOPIC_NAME:default_topic}
+#      parameters:
+#        envId: ${ENVIRONMENT_ID:test123}
+#        clientId: ${CLIENT_ID:test_client}
